@@ -6,7 +6,6 @@ const connectToMongo = () => {
     mongoose.connect(monogoURI, () => {
         console.log("database Connected!");
     });
-    console.log("database not connected");
 };
 
 module.exports = connectToMongo;
