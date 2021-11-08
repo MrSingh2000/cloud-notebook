@@ -14,6 +14,7 @@ router.post('/register', [
     body('username', "Username length should be greater than 3").isLength({ min: 3 }),
     body('password', "Password length should be greater than 3").isLength({ min: 5 })
 ], async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     // checking if there are any errors in request
     if (!errors.isEmpty()) {
@@ -44,7 +45,8 @@ router.post('/register', [
         }
         // generating authentication token which will be used to authenticate the user after login, generated via JWT
         const authToken = jwt.sign(data, JWT_SECRET);
-        res.json({ authToken });
+        success = true;
+        res.json({ authToken, success });
     }
     catch (error) {
         console.error(error);
@@ -63,6 +65,7 @@ router.post('/login', [
     body('username', "Username length should be greater than 3").isLength({ min: 3 }),
     body('password', "Password should not be empty").exists()
 ], async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     // checking if there are any errors in request
     if (!errors.isEmpty()) {
@@ -84,7 +87,8 @@ router.post('/login', [
             }
         }
         const authToken = jwt.sign(data, JWT_SECRET);
-        res.json({ authToken });
+        success = true;
+        res.json({ authToken, success });
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
@@ -93,12 +97,14 @@ router.post('/login', [
 
 // ROUTE 3: Get loggedin User Details using: POST "/api/auth/getuser". Login required, (middleware: fetchuser is used here to fetch authtoken)
 router.post('/getuser', fetchuser, async (req, res) => {
+    let success = false;
     try {
         // get user id from req
         let userId = req.user.id;
         // finding user in database with help of user id, and selecting its data except password
         const user = await User.findById(userId).select('-password');
-        res.send(user);
+        success = true;
+        res.json({user, success});
     } catch (error) {
         res.status(500).send("Internal Server Error");
     }

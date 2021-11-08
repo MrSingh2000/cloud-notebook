@@ -9,7 +9,7 @@ export default function About() {
 
     return (
         <div>
-            This is about {a.state.name} and in class {a.state.class}
+            This is about.
         </div>
     )
 }

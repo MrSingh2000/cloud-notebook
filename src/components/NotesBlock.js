@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import noteContext from '../context/noteContext';
 import Note from './Note';
 
 export default function NotesBlock() {
+    const navigate = useNavigate();
     // get notes state, getNotes function and editNote function from the context (functions/states defined in noteState)
     const { notes, getNotes, editNote } = useContext(noteContext);
     // using useRef hook to put reference to the hidden show-demo button (to open the modal)
@@ -28,7 +30,12 @@ export default function NotesBlock() {
 
     // fetch the notes only once when loading the website/app {other operations will be performed on frontend so that not always need to re-render}
     useEffect(() => {
-        getNotes();
+        if(localStorage.getItem('token')){
+            getNotes();
+        }
+        else{
+            navigate('/login');
+        }
         // eslint-disable-next-line
     }, [])
 

@@ -1,6 +1,7 @@
 import noteContext from "./noteContext";
 import { useState } from "react";
 
+
 // create the note state
 const NoteState = (props) => {
   // a global host variable holding the host name
@@ -17,7 +18,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YTUxM2FjYzEwMzZlY2MwOWRmMjVhIn0sImlhdCI6MTYzNTQ5NDEyOX0.8iJL6iFsDxVHzjV28WMdMQRSPYAaOy6l2kTyeDe6EKw"
+        "auth-token": localStorage.getItem('token')
       },
     });
     const json = await response.json();
@@ -32,7 +33,7 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YTUxM2FjYzEwMzZlY2MwOWRmMjVhIn0sImlhdCI6MTYzNTQ5NDEyOX0.8iJL6iFsDxVHzjV28WMdMQRSPYAaOy6l2kTyeDe6EKw"
+        "auth-token": localStorage.getItem('token')
       },
       body: JSON.stringify({ title, description, tag })
     });
@@ -46,13 +47,15 @@ const NoteState = (props) => {
   const deleteNote = async (id) => {
     // api calls to delete note on db
     let url = `${host}api/notes/deletenote/${id}`;
+    // eslint-disable-next-line
     let response = await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YTUxM2FjYzEwMzZlY2MwOWRmMjVhIn0sImlhdCI6MTYzNTQ5NDEyOX0.8iJL6iFsDxVHzjV28WMdMQRSPYAaOy6l2kTyeDe6EKw"
+        "auth-token": localStorage.getItem('token')
       }
     });
+
 
     // changes performed on frontend so that no excess calls are made to fetch all notes
     const newNotes = notes.filter((note) => note._id !== id);
@@ -67,10 +70,11 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjE3YTUxM2FjYzEwMzZlY2MwOWRmMjVhIn0sImlhdCI6MTYzNTQ5NDEyOX0.8iJL6iFsDxVHzjV28WMdMQRSPYAaOy6l2kTyeDe6EKw"
+        "auth-token": localStorage.getItem('token')
       },
       body: JSON.stringify({ title, description, tag })
     });
+    // eslint-disable-next-line
     let json = await response.json();
 
     // updating the note on the client side
