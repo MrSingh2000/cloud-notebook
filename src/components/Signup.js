@@ -1,10 +1,22 @@
-import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import Alert from './Alert';
+import otherContext from '../context/otherContext';
+import success from './icons/check.png';
+import danger from './icons/alarm.png';
 
 
 export default function Signup() {
+    const context = useContext(otherContext);
+    // states for Alert component
+    const { display, changeDisplay, alert, setalert } = context;
+
+    // state is formed because Alert component was showing multiple times when triggered in other components too
+    const [signupBlock, setsignupBlock] = useState(false);
+
     const navigate = useNavigate();
-    const [credentials, setcredentials] = useState({name: "", username: "", password: "" })
+    const [credentials, setcredentials] = useState({ name: "", username: "", password: "" });
+    const [conditions, setconditions] = useState(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const response = await fetch("http://localhost:5000/api/auth/register", {
@@ -12,42 +24,66 @@ export default function Signup() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({name: credentials.name, username: credentials.username, password: credentials.password })
+            body: JSON.stringify({ name: credentials.name, username: credentials.username, password: credentials.password })
         });
         const json = await response.json();
         if (json.success) {
             // Save the auth token and redirect
             localStorage.setItem('token', json.authToken);
-            navigate("/");
+            setsignupBlock(true);
+            setalert({ type: "success", message: "SignUp Successfull", icon: success });
+            changeDisplay();
+            setTimeout(() => {
+                navigate("/");
+            }, 1500);
         }
         else {
-            alert("Invalid credentials");
+            setalert({ type: "error", message: "Some Error Occured", icon: danger });
+            setsignupBlock(true);
+            changeDisplay();
+            navigate("/signup");
         }
     }
     const onChange = (e) => {
         setcredentials({ ...credentials, [e.target.name]: e.target.value })
     }
+    const handleCondition = () => {
+        if (conditions === false) {
+            setconditions(true);
+        }
+        else {
+            setconditions(false);
+        }
+    }
     return (
-        <div className="container">
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputName1" className="form-label">Name</label>
-                    <input onChange={onChange} type="text" name="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+        <>
+            <div className="position-absolute w-100">
+                {display && signupBlock && <Alert type={alert.type} message={alert.message} icon={alert.icon} />}
+            </div>
+            <div className="container back my-4" style={{ marginTop: '70px' }}>
+                <div className="fs-1 my-3 text-decoration-underline">
+                    Signup
                 </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputUsername1" className="form-label">Username</label>
-                    <input onChange={onChange} type="text" name="username" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input onChange={onChange} type="password" name="password" className="form-control" id="exampleInputPassword1" />
-                </div>
-                <div className="mb-3 form-check">
-                    <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                    <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
-        </div>
+                <form onSubmit={handleSubmit} className="back bg-transparent my-3">
+                    <div className="mb-3">
+                        <label htmlFor="exampleInputName1" className="form-label fs-4 mx-2 logina1">Name</label>
+                        <input onChange={onChange} type="text" name="name" className="form-control w-50" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="exampleInputUsername1" className="form-label fs-4 mx-2 logina1">Username</label>
+                        <input onChange={onChange} type="text" name="username" className="form-control w-50" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="exampleInputPassword1" className="form-label fs-4 mx-2 logina1">Password</label>
+                        <input onChange={onChange} type="password" name="password" className="form-control w-50" id="exampleInputPassword1" />
+                    </div>
+                    <div className="mb-3 form-check mx-2">
+                        <input onClick={handleCondition} type="checkbox" className="form-check-input" id="exampleCheck1" />
+                        <label className="form-check-label fst-italic" htmlFor="exampleCheck1"><Link to="/conditions">Accept Terms & Conditions</Link></label>
+                    </div>
+                    <button type="submit" className={`btn btn-primary mx-2 my-2 rounded-3 ${conditions === true && credentials.name !== "" && credentials.username !== "" && credentials.password !== "" ? "" : "disabled"}`}>Submit</button>
+                </form>
+            </div>
+        </>
     )
 }

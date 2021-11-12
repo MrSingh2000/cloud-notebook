@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import NotesBlock from './NotesBlock';
 import noteContext from '../context/noteContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+    const navigate = useNavigate();
     // note state is imported with help of useContext hook
     const context = useContext(noteContext);
     // addNote function is imported from the context
@@ -22,9 +24,39 @@ export default function Home() {
         setnewnote({ ...newnote, [e.target.name]: e.target.value });
     }
 
+    const [user, setuser] = useState({name: "", username: ""});
+
+    const getUser = async () => {
+        let url = "http://localhost:5000/api/auth/getuser";
+        let response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": localStorage.getItem('token')
+            }
+          });
+          // eslint-disable-next-line
+          let json = await response.json();
+          setuser({name: json.user.name, username: json.user.username});
+    }
+
+    useEffect(() => {
+        if(localStorage.getItem('token')){
+            getUser();
+        }
+        else{
+            navigate('/login');
+        }
+        // eslint-disable-next-line
+    }, [])
+
     return (
         <>
             <div className="container">
+                <div  className="my-3">
+                    <p><b>User: </b>{user.name}<br/>
+                    <b>Username: </b><i>{user.username}</i></p>
+                </div>
                 <h3 className="my-2">Add New Note</h3>
                 <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">Title</span>
