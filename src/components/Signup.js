@@ -37,6 +37,11 @@ export default function Signup() {
                 navigate("/");
             }, 1500);
         }
+        else if(json.error){
+            setalert({ type: "error", message: json.error, icon: danger });
+            setsignupBlock(true);
+            changeDisplay();
+        }
         else {
             setalert({ type: "error", message: "Some Error Occured", icon: danger });
             setsignupBlock(true);
@@ -60,7 +65,7 @@ export default function Signup() {
             <div className="position-absolute w-100">
                 {display && signupBlock && <Alert type={alert.type} message={alert.message} icon={alert.icon} />}
             </div>
-            <div className="container back my-4" style={{ marginTop: '70px' }}>
+            <div className="container back" style={{ marginTop: '70px' }}>
                 <div className="fs-1 my-3 text-decoration-underline">
                     Signup
                 </div>
