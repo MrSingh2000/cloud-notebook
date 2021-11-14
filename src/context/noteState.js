@@ -5,7 +5,8 @@ import { useState } from "react";
 // create the note state
 const NoteState = (props) => {
   // a global host variable holding the host name
-  const host = "http://localhost:5000/";
+  // const host = "http://localhost:5000/";
+  const host = process.env.MONGODB_URI;
   // notes array, initially to be empty
   const initialNotes = [];
   // notes state to make changes to the inititalNotes array
