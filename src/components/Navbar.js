@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Alert from './Alert';
 import otherContext from '../context/otherContext';
 import success from './icons/check.png';
+import icon from './icons/notebook.png';
 
 
 export default function Navbar() {
@@ -30,7 +31,7 @@ export default function Navbar() {
         <>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">Cloud-NB</Link>
+                <Link className="navbar-brand" to="/"><img src={icon} alt="icon" height="30px"/></Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
