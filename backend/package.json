@@ -4,7 +4,8 @@
   "description": "This is the backend for cloud-notebook application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js"
   },
   "author": "Anshuman Singh",
   "license": "ISC",
@@ -15,6 +16,10 @@
     "express-validator": "^6.13.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.12"
+  },
+  "engines": {
+    "node": "14.x",
+    "npm": "6.14.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
