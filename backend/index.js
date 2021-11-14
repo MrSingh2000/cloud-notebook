@@ -10,6 +10,7 @@ app.use(express.json())
 
 connectToMongo();
 
+console.log("i am here")
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
