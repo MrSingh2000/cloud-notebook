@@ -72,15 +72,15 @@ export default function Signup() {
                 <form onSubmit={handleSubmit} className="back bg-transparent my-3">
                     <div className="mb-3">
                         <label htmlFor="exampleInputName1" className="form-label fs-4 mx-2 logina1">Name</label>
-                        <input onChange={onChange} type="text" name="name" className="form-control w-50" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                        <input onChange={onChange} type="text" name="name" className="form-control mx-2 w-50" id="exampleInputEmail1" aria-describedby="emailHelp" />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputUsername1" className="form-label fs-4 mx-2 logina1">Username</label>
-                        <input onChange={onChange} type="text" name="username" className="form-control w-50" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                        <input onChange={onChange} type="text" name="username" className="form-control mx-2 w-50" id="exampleInputEmail1" aria-describedby="emailHelp" />
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label fs-4 mx-2 logina1">Password</label>
-                        <input onChange={onChange} type="password" name="password" className="form-control w-50" id="exampleInputPassword1" />
+                        <input onChange={onChange} type="password" name="password" className="form-control mx-2 w-50" id="exampleInputPassword1" />
                     </div>
                     <div className="mb-3 form-check mx-2">
                         <input onClick={handleCondition} type="checkbox" className="form-check-input" id="exampleCheck1" />
