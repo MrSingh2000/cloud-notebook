@@ -13,7 +13,7 @@ const NoteState = (props) => {
   const [notes, setnotes] = useState(initialNotes);
   // function to get all notes stored in db
   const getNotes = async () => {
-    let url = `${host}api/notes/fetchnotes`;
+    let url = `${host}/api/notes/fetchnotes`;
     // use fetch api
     let response = await fetch(url, {
       method: "GET",
