@@ -6,7 +6,7 @@ import { useState } from "react";
 const NoteState = (props) => {
   // a global host variable holding the host name
   // const host = "http://localhost:5000/";
-  const host = process.env.MONGODB_URI;
+  const host = process.env.REACT_APP_BACKEND;
   // notes array, initially to be empty
   const initialNotes = [];
   // notes state to make changes to the inititalNotes array
@@ -29,7 +29,7 @@ const NoteState = (props) => {
   // Add a Note
   const addNote = async (title, description, tag) => {
     // api calls to add note on db
-    let url = `${host}api/notes/addnote`;
+    let url = `${host}/api/notes/addnote`;
     let response = await fetch(url, {
       method: "POST",
       headers: {
@@ -47,7 +47,7 @@ const NoteState = (props) => {
   // Delete a Note
   const deleteNote = async (id) => {
     // api calls to delete note on db
-    let url = `${host}api/notes/deletenote/${id}`;
+    let url = `${host}/api/notes/deletenote/${id}`;
     // eslint-disable-next-line
     let response = await fetch(url, {
       method: "DELETE",
@@ -66,7 +66,7 @@ const NoteState = (props) => {
   // Update a Note
   const editNote = async (id, title, description, tag) => {
     // api call to update a note on db
-    let url = `${host}api/notes/updatenote/${id}`;
+    let url = `${host}/api/notes/updatenote/${id}`;
     let response = await fetch(url, {
       method: "PUT",
       headers: {

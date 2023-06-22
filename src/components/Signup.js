@@ -19,7 +19,7 @@ export default function Signup() {
     const [conditions, setconditions] = useState(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`${process.env.MONGODB_URI}/api/auth/register`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/api/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

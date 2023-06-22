@@ -27,7 +27,7 @@ export default function Home() {
     const [user, setuser] = useState({name: "", username: ""});
 
     const getUser = async () => {
-        let url = `${process.env.MONGODB_URI}/api/auth/getuser1`;
+        let url = `${process.env.REACT_APP_BACKEND}/api/auth/getuser1`;
         let response = await fetch(url, {
             method: "POST",
             headers: {
